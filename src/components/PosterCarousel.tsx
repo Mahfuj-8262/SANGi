@@ -1,152 +1,123 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Aleo } from "next/font/google";
+import { Poppins } from "next/font/google";
+import { motion, AnimatePresence } from "framer-motion";
 
-const aleo = Aleo({ subsets: ["latin"], weight: ["400", "700"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
 type PosterItem = string | { image: string; caption?: React.ReactNode };
-type PosterCarouselProps = { posters: PosterItem[]; caption?: React.ReactNode };
+type PosterCarouselProps = { posters: PosterItem[] };
 
-export default function PosterCarousel({ posters, caption }: PosterCarouselProps) {
+export default function PosterCarousel({ posters }: PosterCarouselProps) {
   const [curr, setCurr] = useState(0);
-  const [animKey, setAnimKey] = useState(0); // ⚙️ to force animation restart
+  const [prev, setPrev] = useState<number | null>(null);
+  const [fade, setFade] = useState(false);
 
+  // Keep same interval & timing as before
   useEffect(() => {
     if (posters.length <= 1) return;
+
     const timer = setInterval(() => {
-      setCurr((c) => (c + 1) % posters.length);
-      setAnimKey((k) => k + 1); // new key → new animation
-    }, 4000);
+      setPrev(curr);
+      const next = (curr + 1) % posters.length;
+      setFade(true);
+
+      // halfway through fade → update image index
+      setTimeout(() => {
+        setCurr(next);
+      }, 350);
+
+      // end fade
+      setTimeout(() => setFade(false), 700);
+    }, 4000); // same as before
+
     return () => clearInterval(timer);
-  }, [posters.length]);
+  }, [curr, posters.length]);
 
   if (!posters || posters.length === 0) return null;
 
-  const p = posters[curr];
-  const currPoster = typeof p === "string" ? { image: p } : p;
-  const displayCaption = caption || currPoster.caption;
+  const currPoster =
+    typeof posters[curr] === "string"
+      ? { image: posters[curr] as string }
+      : (posters[curr] as { image: string; caption?: React.ReactNode });
+
+  const prevPoster =
+    prev !== null
+      ? typeof posters[prev] === "string"
+        ? { image: posters[prev] as string }
+        : (posters[prev] as { image: string; caption?: React.ReactNode })
+      : null;
 
   return (
-    <section
-      className="relative w-screen overflow-hidden shadow-lg
-                 h-[340px] xs:h-[420px] sm:h-[530px] md:h-[670px] lg:h-[800px]"
-    >
-      {/* Poster */}
-      <div
-        key={animKey} // 👈 forces re‑creation each slide
-        className="absolute inset-0"
-      >
+    <section className="w-full flex justify-center m-0 p-0">
+      <div className="relative overflow-hidden shadow-lg rounded-4xl mx-[10px] md:mx-[15px] lg:mx-[20px] w-full max-w-none h-[340px] xs:h-[420px] sm:h-[530px] md:h-[670px] lg:h-[800px]">
+        {/* -------- Previous Image for crossfade ---------- */}
+        {prevPoster && prevPoster.image && (
+          <Image
+            key={`prev-${prev}`}
+            src={prevPoster.image}
+            alt={`Poster ${prev ?? 0}`}
+            fill
+            sizes="100vw"
+            className={`object-cover object-center absolute inset-0 transition-opacity duration-700 ${
+              fade ? "opacity-0" : "opacity-100"
+            }`}
+          />
+        )}
+
+        {/* -------- Current Image ---------- */}
         <Image
+          key={`curr-${curr}`}
           src={currPoster.image}
           alt={`Poster ${curr + 1}`}
           fill
-          priority={curr === 0}
           sizes="100vw"
-          className="object-cover object-center"
+          priority
+          className={`object-cover object-center rounded-2xl absolute inset-0 transition-opacity duration-700 ${
+            fade ? "opacity-100" : "opacity-100"
+          }`}
         />
-        <div className="absolute inset-0 bg-black/30" />
-      </div>
 
-      {/* Caption */}
-      {displayCaption && (
+        {/* -------- Overlay ---------- */}
+        <div className="absolute inset-0 bg-black/35 rounded-2xl pointer-events-none" />
+
+        {/* -------- Caption (mid-upper position) ---------- */}
         <div
-          key={`caption-${animKey}`}
-          className={`${aleo.className} absolute left-5 sm:left-10 top-1/2
-                      -translate-y-1/2 text-white font-bold drop-shadow-lg z-20
-                      text-3xl sm:text-4xl md:text-5xl slide-caption`}
+          className={`${poppins.className} absolute left-6 sm:left-12 top-1/3 transform -translate-y-1/4 text-white drop-shadow-lg z-20`}
         >
-          {displayCaption}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={curr}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.7, ease: "easeInOut" }}
+              className="max-w-[70%]"
+            >
+              {currPoster.caption}
+            </motion.div>
+          </AnimatePresence>
         </div>
-      )}
 
-      {/* Dots */}
-      {posters.length > 1 && (
-        <div className="absolute left-1/2 bottom-4 -translate-x-1/2 flex gap-2 z-30">
-          {posters.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setCurr(i);
-                setAnimKey((k) => k + 1);
-              }}
-              aria-label={`Poster ${i + 1}`}
-              className={`transition-all duration-300 rounded-lg
-                ${curr === i ? "w-10 h-2 bg-amber-300" : "w-4 h-2 bg-amber-100 opacity-70"}`}
-            />
-          ))}
-        </div>
-      )}
+        {/* -------- Dots ---------- */}
+        {posters.length > 1 && (
+          <div className="absolute left-1/2 bottom-4 -translate-x-1/2 flex gap-2 z-30">
+            {posters.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurr(i)}
+                aria-label={`Poster ${i + 1}`}
+                className={`transition-all duration-300 rounded-lg ${
+                  curr === i
+                    ? "w-10 h-2 bg-amber-300"
+                    : "w-4 h-2 bg-amber-100 opacity-70"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 }
-
-
-
-// "use client";
-// import { useState, useEffect } from "react";
-// import Image from "next/image";
-
-// type PosterItem = string | { image: string; caption?: React.ReactNode };
-// type PosterCarouselProps = { posters: PosterItem[]; caption?: React.ReactNode };
-
-// export default function PosterCarousel({ posters, caption }: PosterCarouselProps) {
-//   const [curr, setCurr] = useState(0);
-
-//   useEffect(() => {
-//     if (posters.length <= 1) return;
-//     const timer = setInterval(() => setCurr((c) => (c + 1) % posters.length), 4000);
-//     return () => clearInterval(timer);
-//   }, [posters.length]);
-
-//   if (!posters || posters.length === 0) return null;
-
-//   const p = posters[curr];
-//   const currPoster = typeof p === "string" ? { image: p } : p;
-//   const displayCaption = caption || currPoster.caption;
-
-//   return (
-//     // 🧙 Outer section contributes height to page flow
-//     <section className="relative w-full overflow-hidden shadow-lg
-//                         h-[340px] xs:h-[420px] sm:h-[530px] md:h-[670px] lg:h-[800px]">
-//       {/* Image fills parent area */}
-//       <Image
-//         src={currPoster.image}
-//         alt={`Poster ${curr + 1}`}
-//         fill
-//         priority={curr === 0}
-//         sizes="100vw"
-//         className="object-cover object-center"
-//       />
-
-//       {/* Overlay */}
-//       <div className="absolute inset-0 bg-black/30" />
-
-//       {/* Caption */}
-//       {displayCaption && (
-//         <div
-//           className="absolute left-5 sm:left-10 top-1/2 -translate-y-1/2
-//                      text-white font-bold drop-shadow-lg z-20
-//                      max-w-[80vw] sm:max-w-[60vw] md:max-w-[40vw]"
-//         >
-//           {displayCaption}
-//         </div>
-//       )}
-
-//       {/* Indicators */}
-//       {posters.length > 1 && (
-//         <div className="absolute left-1/2 bottom-4 -translate-x-1/2 flex gap-2 z-30">
-//           {posters.map((_, i) => (
-//             <button
-//               key={i}
-//               onClick={() => setCurr(i)}
-//               aria-label={`Poster ${i + 1}`}
-//               className={`transition-all duration-300 rounded-lg
-//                 ${curr === i ? "w-10 h-2 bg-blue-950" : "w-4 h-2 bg-amber-50 opacity-70"}`}
-//             />
-//           ))}
-//         </div>
-//       )}
-//     </section>
-//   );
-// }

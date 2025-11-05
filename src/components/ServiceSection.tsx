@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 type Service = {
   title: string;
@@ -47,55 +48,63 @@ const services: Service[] = [
   },
 ];
 
+const itemDelay = 0.15;
+const itemDuration = 0.6;
+
 export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="w-full bg-gray-50 text-gray-900 py-16 px-6 sm:px-10 lg:px-20"
+      className="w-full bg-gray-200/70 text-gray-900 py-16 px-4 sm:px-10 lg:px-20"
     >
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-blue-800">
-          Our Services
+      <div className="max-w-7xl mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-semibold text-gray-800">
+          Our <span className="text-gray-500">Services</span>
         </h2>
 
-        {/* grid of boxes */}
-        <div className="grid gap-12 md:gap-16 md:grid-cols-3">
-          {services.map((service) => (
-            <div key={service.title} className="flex flex-col items-start space-y-4">
-              {/* Title outside the box */}
-              <h3
-                className="
-                  text-lg sm:text-xl lg:text-2xl font-semibold text-blue-700
-                  whitespace-nowrap truncate overflow-hidden w-full
-                "
-                title={service.title} // tooltip with full text
-              >
-                {service.title}
-              </h3>
-
-              {/* Box */}
-              <div
-                className="
-                  bg-white border border-gray-200 rounded-lg
-                  shadow-sm hover:shadow-lg hover:border-blue-300
-                  transition-all duration-300
-                  p-6 flex flex-col justify-between h-full
-                  transform hover:-translate-y-1
-                "
-              >
-                <p className="text-gray-700 leading-relaxed mb-6">
+        <div
+          className="
+            mt-14
+            grid
+            sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+            gap-[5px]
+            rounded-2xl overflow-hidden
+            bg-gray-100
+          "
+        >
+          {services.map((service, i) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: itemDuration,
+                delay: i * itemDelay,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+              className="bg-white p-8 flex flex-col justify-between text-left shadow-sm hover:shadow-md transition-shadow duration-300"
+            >
+              <div>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3">
+                  {service.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
                   {service.description}
                 </p>
+              </div>
+
+              <div className="mt-8">
                 <Link href={service.link}>
                   <Button
                     variant="outline"
-                    className="text-blue-700 border-blue-700 hover:bg-blue-700 hover:text-white"
+                    className="text-blue-700 border-blue-600 hover:bg-blue-700 hover:text-white hover:border-blue-700 transition-colors duration-200"
                   >
                     See More
                   </Button>
                 </Link>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

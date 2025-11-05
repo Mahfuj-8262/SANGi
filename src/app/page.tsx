@@ -3,6 +3,10 @@ import Link from "next/link";
 
 import PosterCarousel from "@/components/PosterCarousel";
 import ServiceSection from "@/components/ServiceSection";
+import QualityTrustSection from "@/components/QualityTrustSection";
+import MessageFromCeo from "@/components/MessageFromCeo";
+import MissionVisionSection from "@/components/MissionVisionSection";
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function HomePage() {
   // const services = [
@@ -14,38 +18,87 @@ export default function HomePage() {
   //   { name: "Abdus Sattar Foundation", slug: "abdus-sattar-foundation", image: "/images/abdus-sattar.jpg" },
   // ];
 
+  // const posters = [
+  //   {
+  //     image: "/banner 1.webp",
+  //     caption: (
+  //       <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
+  //         Welcome to Sangi Group of Industries
+  //       </h1>
+  //     ),
+  //   },
+  //   {
+  //     image: "/banner 2.webp",
+  //     caption: (
+  //       <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
+  //         Building Trust Across Sectors
+  //       </h1>
+  //     ),
+  //   },
+  //   {
+  //     image: "/banner 3.jpg",
+  //     caption: (
+  //       <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
+  //         Innovation • Dedication • Growth
+  //       </h1>
+  //     ),
+  //   },
+  // ];
+
   const posters = [
     {
       image: "/banner 1.webp",
       caption: (
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
-          Welcome to Sangi Group of Industries
-        </h1>
+        <div>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-2">
+            Engineering Tomorrow’s Mobility
+          </h2>
+          <p className="text-lg text-gray-100 max-w-lg font-medium">
+            Crafting innovative vehicles and sustainable solutions
+            that drive progress responsibly.
+          </p>
+        </div>
       ),
     },
     {
       image: "/banner 2.webp",
       caption: (
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
-          Building Trust Across Sectors
-        </h1>
+        <div>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-2">
+            Trust That Connects Markets
+          </h2>
+          <p className="text-lg text-gray-100 max-w-md font-medium">
+            From trade to real estate, building global relationships
+            grounded in integrity and excellence.
+          </p>
+        </div>
       ),
     },
-    // {
-    //   image: "/images/banner3.jpg",
-    //   caption: (
-    //     <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
-    //       Innovation • Dedication • Growth
-    //     </h1>
-    //   ),
-    // },
+    {
+      image: "/banner 3.jpg",
+      caption: (
+        <div>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-2">
+            Empowering Purpose Through Progress
+          </h2>
+          <p className="text-lg text-gray-100 max-w-md font-medium">
+            Balancing industry success with social responsibility —
+            creating a legacy of care and innovation.
+          </p>
+        </div>
+      ),
+    },
   ];
 
   return (
     <main>
       {/* <div className="bg-red-400 text-white p-4">TOP TEST BOX</div> */}
       <PosterCarousel posters={posters} />
+      <QualityTrustSection />
       <ServiceSection />
+      <MessageFromCeo />
+      <MissionVisionSection />
+      <WhyChooseUs />
       {/* <div className="bg-green-400 text-white p-4">BOTTOM TEST BOX</div> */}
     </main>
   );

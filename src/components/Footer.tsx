@@ -19,13 +19,13 @@ export default function Footer() {
         {/* --- CTA --- */}
         <div className="text-center">
           <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-4">
-            Let's Build Something Together
+            Let&apos;s Build Something Together
           </h2>
           <p className="max-w-3xl mx-auto text-gray-400 leading-relaxed mb-8 text-sm sm:text-base">
             Have any questions, project ideas, or business inquiries?
             <br className="hidden sm:block" />
             Our team is always ready to collaborate and provide tailored
-            solutions. Don’t hesitate — we’re one click away from turning your
+            solutions. Don&apos;t hesitate — we&apos;re one click away from turning your
             ideas into reality.
           </p>
           <Link href="/contact">

@@ -31,10 +31,10 @@ export default function MessageFromCeo() {
               “A Vision Built on Integrity and Innovation”
             </h3>
             <p className="text-gray-700 leading-relaxed mb-8 text-sm sm:text-base">
-              "At Sangi Group of Industries, we believe that our strength lies in our people and our
+              &quot;At Sangi Group of Industries, we believe that our strength lies in our people and our
               unwavering commitment to quality. From humble beginnings to a leading industrial enterprise,
               our journey has been defined by innovation and trust. We look forward to continuing to
-              serve our communities with dedication and vision..."
+              serve our communities with dedication and vision...&quot;
             </p>
             <Link href="/about/message-from-ceo">
               <Button

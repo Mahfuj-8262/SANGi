@@ -88,7 +88,7 @@ export default function MissionVisionSection() {
               {
                 title: "Global Leadership",
                 text:
-                  "Be a Bangladesh‑born brand recognized globally for ethics, innovation, and excellence.",
+                  "Be a Bangladesh-born brand recognized globally for ethics, innovation, and excellence.",
               },
               {
                 title: "Industrial Excellence",
@@ -103,7 +103,7 @@ export default function MissionVisionSection() {
               {
                 title: "Sustainable Future 2030",
                 text:
-                  "Champion green growth and ethical governance for long‑term prosperity.",
+                  "Champion green growth and ethical governance for long-term prosperity.",
               },
             ].map((item) => (
               <div

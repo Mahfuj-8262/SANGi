@@ -39,7 +39,7 @@ export default function Footer() {
         </div>
 
         {/* --- Footer Content --- */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 border-t border-gray-700 pt-14">
+        <div className="grid grid-cols-1 text-center sm:text-left md:grid-cols-3 gap-10 border-t border-gray-700 pt-14">
           {/* SANGI GROUP INFO */}
           <div>
             <h3 className="text-lg font-bold text-white mb-3">
@@ -47,8 +47,8 @@ export default function Footer() {
             </h3>
             <p className="text-sm text-gray-400 leading-relaxed">
               Diversified conglomerate in automotive, trade, property
-              development, safety products, and community services — committed
-              to innovation, integrity, and excellence.
+              development, safety products, and community services — committed
+              to innovation, integrity, and excellence.
             </p>
           </div>
 
@@ -110,21 +110,21 @@ export default function Footer() {
                   Corporate Office:
                 </span>
                 <br />
-                House 35, 3rd Floor, Bijoynagar, Palton, Dhaka‑1000
+                House 35, 3rd Floor, Bijoynagar, Palton, Dhaka-1000
               </li>
               <li>
                 <span className="text-white font-medium">Head Office:</span>
                 <br />
-                House 47, Siraj Market, Ranavola, Turag, Uttara, Dhaka‑1230
+                House 47, Siraj Market, Ranavola, Turag, Uttara, Dhaka-1230
               </li>
               <li>
                 <span className="text-white font-medium">Phone:</span>
-                <br />+880 1730‑718304 / +880 2226‑665598
+                <br />+880 1730-718304 / +880 2226-665598
               </li>
               <li>
                 <span className="text-white font-medium">Email:</span>
                 <br />
-                info@sangibd.com  /  sangitrade25@gmail.com
+                info@sangibd.com  /  sangitrade25@gmail.com
               </li>
             </ul>
           </div>
@@ -176,7 +176,7 @@ export default function Footer() {
           </div>
 
           <small className="text-center md:text-right">
-            © {new Date().getFullYear()} SANGi Group of Industries — All Rights Reserved.
+            © {new Date().getFullYear()} SANGi Group of Industries — All Rights Reserved.
           </small>
         </div>
       </div>

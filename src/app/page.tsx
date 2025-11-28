@@ -51,7 +51,7 @@ export default function HomePage() {
       caption: (
         <div>
           <h2 className="text-4xl sm:text-5xl font-bold mb-2">
-            Engineering Tomorrow’s Mobility
+            Engineering Tomorrow's Mobility
           </h2>
           <p className="text-lg text-gray-100 max-w-lg font-medium">
             Crafting innovative vehicles and sustainable solutions
